@@ -1,5 +1,9 @@
 import { getCurrentInstance } from 'vue'
-import { getFixedColumnOffset, getFixedColumnsClass } from '../util'
+import {
+  getFixedColumnOffset,
+  getFixedColumnsClass,
+  ensurePosition,
+} from '../util'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { Table } from '../table/defaults'
 import type { TableBodyProps } from './defaults'
@@ -72,11 +76,8 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
       props.store
     )
     if (fixedStyle) {
-      if (fixedStyle.left !== undefined) {
-        fixedStyle.left += 'px'
-      } else if (fixedStyle.right !== undefined) {
-        fixedStyle.right += 'px'
-      }
+      ensurePosition(fixedStyle, 'left')
+      ensurePosition(fixedStyle, 'right')
     }
     return Object.assign({}, cellStyles, fixedStyle)
   }

@@ -1,5 +1,9 @@
 import { computed, getCurrentInstance } from 'vue'
-import { getFixedColumnOffset, getFixedColumnsClass } from '../util'
+import {
+  getFixedColumnOffset,
+  getFixedColumnsClass,
+  ensurePosition,
+} from '../util'
 import useMapState from './mapState-helper'
 import type { Table } from '../table/defaults'
 import type { TableColumnCtx } from '../table-column/defaults'
@@ -56,11 +60,8 @@ function useStyle<T>(props: TableFooter<T>) {
           fixedStyle.right += gutterWidth
         }
       }
-      if (fixedStyle.left !== undefined) {
-        fixedStyle.left += 'px'
-      } else if (fixedStyle.right !== undefined) {
-        fixedStyle.right += 'px'
-      }
+      ensurePosition(fixedStyle, 'left')
+      ensurePosition(fixedStyle, 'right')
     }
     return fixedStyle
   }
